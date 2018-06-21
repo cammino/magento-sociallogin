@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<config>
+    <modules>
+        <Cammino_Sociallogin>
+            <version>0.0.1</version>
+        </Cammino_Sociallogin>
+    </modules>
+    
+    <global>
+        <models>
+            <sociallogin>
+                <class>Cammino_Sociallogin_Model</class>
+            </sociallogin>
+        </models>
+        <blocks>
+            <sociallogin>
+                <class>Cammino_Sociallogin_Block</class>
+            </sociallogin>
+        </blocks>
+        <resources>
+            <sociallogin_setup>
+                <setup>
+                    <module>Cammino_Sociallogin</module>
+                    <class>Mage_Catalog_Model_Resource_Setup</class>
+                </setup>
+            </sociallogin_setup>
+        </resources>
+    </global>
+
+   <frontend>
+        <layout>
+            <updates>
+                <sociallogin>
+                    <file>sociallogin.xml</file>
+                </sociallogin>
+            </updates>
+        </layout>
+        <routers>
+            <sociallogin>
+                <use>standard</use>
+                <args>
+                    <module>Cammino_Sociallogin</module>
+                    <frontName>sociallogin</frontName>
+                </args>
+            </sociallogin>
+        </routers>
+    </frontend>
+</config> 

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layout>
+	<default>
+		<reference name="after_body_start">
+			<block type="sociallogin/fbroot" name="sociallogin_fbroot" template="sociallogin/fbroot.phtml" />
+		</reference>
+	</default>
+	<customer_account_login>
+		<reference name="before_body_end">
+			<block type="sociallogin/account_login" name="sociallogin_login" template="sociallogin/account/login.phtml" />
+		</reference>
+	</customer_account_login>
+	<customer_account_create>
+		<reference name="before_body_end">
+			<block type="sociallogin/account_create" name="sociallogin_login" template="sociallogin/account/create.phtml" />
+		</reference>
+	</customer_account_create>
+</layout>

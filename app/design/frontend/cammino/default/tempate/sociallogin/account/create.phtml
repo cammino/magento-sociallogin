@@ -1,0 +1,20 @@
+<script>
+
+document.observe("dom:loaded", function() {
+
+	$$('.new-users .fieldset')[1].hide();
+	$$('.new-users .fieldset').first().insert('<input type="hidden" name="fb_user_id" id="fb_user_id" /><input type="hidden" name="fb_access_token" id="fb_access_token" />');
+
+	$('firstname').value = '<?php echo $this->getFirstname(); ?>';
+	$('lastname').value = '<?php echo $this->getLastname(); ?>';
+	$('email_address').value = '<?php echo $this->getEmail(); ?>';
+
+	$('password').value = '<?php echo $this->getPassword(); ?>';
+	$('confirmation').value = '<?php echo $this->getPassword(); ?>';
+
+	$('fb_user_id').value = '<?php echo $this->getUserId(); ?>';
+	$('fb_access_token').value = '<?php echo $this->getAccessToken(); ?>';
+
+});
+
+</script>
