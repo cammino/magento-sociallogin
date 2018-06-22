@@ -5,14 +5,25 @@ class Cammino_Sociallogin_LoginController extends Mage_Core_Controller_Front_Act
 		$fbUserId = $this->getFbUserId();
 		$storeId = Mage::app()->getWebsite()->getId();
 		$users = $this->getCustomerByFbUserId($storeId, $fbUserId);
-		$redirectUrl = '';
+		$origin = $this->getRequest()->getParam('origin');;
 
 		if (count($users) > 0) {
 			$this->doLogin(end($users), $storeId);
-			$redirectUrl = Mage::getUrl('customer/account', array('_secure' => true));
+
+			if ($origin == 'onestepcheckout_index') {
+				$redirectUrl = Mage::getUrl('onestepcheckout/index', array('_secure' => true));
+			} else {
+				$redirectUrl = Mage::getUrl('customer/account', array('_secure' => true));
+			}
+			
 		} else {
 			$this->saveFbDataInSession($fbUserId);
-			$redirectUrl = Mage::getUrl('customer/account/create', array('_secure' => true));
+
+			if ($origin == 'onestepcheckout_index') {
+				$redirectUrl = Mage::getUrl('onestepcheckout/index', array('_secure' => true));
+			} else {
+				$redirectUrl = Mage::getUrl('customer/account/create', array('_secure' => true));
+			}
 		}
 
 		header('Content-Type: application/json');

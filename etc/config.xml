@@ -7,6 +7,34 @@
     </modules>
     
     <global>
+
+        <fieldsets>
+            <checkout_onepage_quote>
+                <customer_fb_user_id>
+                    <to_customer>fb_user_id</to_customer>
+                </customer_fb_user_id>
+                <customer_fb_access_token>
+                    <to_customer>fb_access_token</to_customer>
+                </customer_fb_access_token>
+            </checkout_onepage_quote>
+            <customer_account>
+                <fb_user_id>
+                    <to_quote>customer_fb_user_id</to_quote>
+                </fb_user_id>
+                <fb_access_token>
+                    <to_quote>customer_fb_access_token</to_quote>
+                </fb_access_token>
+            </customer_account>
+            <sales_convert_quote>
+                <customer_fb_user_id>
+                    <to_order>*</to_order>
+                </customer_fb_user_id>
+                <customer_fb_access_token>
+                    <to_order>*</to_order>
+                </customer_fb_access_token>
+            </sales_convert_quote>
+        </fieldsets>
+
         <models>
             <sociallogin>
                 <class>Cammino_Sociallogin_Model</class>
@@ -25,6 +53,7 @@
                 </setup>
             </sociallogin_setup>
         </resources>
+
     </global>
 
    <frontend>
@@ -44,5 +73,23 @@
                 </args>
             </sociallogin>
         </routers>
+        <events>
+            <customer_register_success>
+                <observers>
+                    <sociallogin_customer_register_success>
+                        <class>sociallogin/observer</class>
+                        <method>clearSessionData</method>
+                    </sociallogin_customer_register_success>
+                </observers>
+            </customer_register_success>
+            <sales_order_place_after>
+                <observers>
+                    <sociallogin_sales_order_place_after>
+                        <class>sociallogin/observer</class>
+                        <method>clearSessionData</method>
+                    </sociallogin_sales_order_place_after>
+                </observers>
+            </sales_order_place_after>
+        </events>
     </frontend>
 </config> 

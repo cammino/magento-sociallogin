@@ -7,12 +7,17 @@
 	</default>
 	<customer_account_login>
 		<reference name="before_body_end">
-			<block type="sociallogin/account_login" name="sociallogin_login" template="sociallogin/account/login.phtml" />
+			<block type="sociallogin/account_login" name="sociallogin_account_login" template="sociallogin/account/login.phtml" />
 		</reference>
 	</customer_account_login>
 	<customer_account_create>
 		<reference name="before_body_end">
-			<block type="sociallogin/account_create" name="sociallogin_login" template="sociallogin/account/create.phtml" />
+			<block type="sociallogin/account_create" name="sociallogin_account_create" template="sociallogin/account/create.phtml" />
 		</reference>
 	</customer_account_create>
+	<onestepcheckout_index_index>
+		<reference name="before_body_end">
+			<block type="sociallogin/onestepcheckout_index" name="sociallogin_onestepcheckout_index" template="sociallogin/onestepcheckout/index.phtml" />
+		</reference>
+	</onestepcheckout_index_index>
 </layout>

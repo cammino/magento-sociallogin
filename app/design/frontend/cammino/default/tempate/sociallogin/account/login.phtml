@@ -1,7 +1,6 @@
 <script>
-
 document.observe("dom:loaded", function() {
-    $$('.registered-users .buttons-set').first().insert('<div class="fb-login-button" data-width="300" data-max-rows="1" data-size="large" data-button-type="login_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="true" data-scope="public_profile,email" data-onlogin="fbLoginCallback"></div>');
+    $$('.registered-users .buttons-set').first().insert('<div id="sociallogin-wrap"><div class="fb-login-button" data-width="300" data-max-rows="1" data-size="large" data-button-type="login_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="true" data-scope="public_profile,email" data-onlogin="fbLoginCallback"></div></div>');
 });
 
 window.fbAsyncInit = function() {
@@ -14,9 +13,6 @@ window.fbAsyncInit = function() {
 };
 function fbLoginCallback() {
     FB.getLoginStatus(function(response) {
-
-        console.log(response);
-
         FB.api('/me', { fields: 'name, first_name, email, gender' }, function(response2) {
                 new Ajax.Request('<?php echo Mage::getUrl('sociallogin/login/check', array('_secure' => true)) ?>', {
                     method: "post",
@@ -26,10 +22,13 @@ function fbLoginCallback() {
                         email: response2.email,
                         accessToken: response.authResponse.accessToken,
                         userId: response.authResponse.userID,
-                        signedRequest: response.authResponse.signedRequest
+                        signedRequest: response.authResponse.signedRequest,
+                        origin: 'account_login'
                     },
                     onComplete: function (data) {
-                        window.location = data.responseJSON.redirectUrl;
+                        if (typeof(data.responseJSON.redirectUrl) != 'undefined') {
+                            window.location = data.responseJSON.redirectUrl;
+                        }
                     }
                 });
             }

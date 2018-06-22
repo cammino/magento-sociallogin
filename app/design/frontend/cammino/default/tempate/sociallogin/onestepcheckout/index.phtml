@@ -1,0 +1,55 @@
+<script>
+document.observe("dom:loaded", function() {
+    $$('#onestepcheckout_prelogin_form').first().insert('<div id="sociallogin-wrap"><div class="fb-login-button" data-width="300" data-max-rows="1" data-size="large" data-button-type="login_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="true" data-scope="public_profile,email" data-onlogin="fbLoginCallback"></div></div>');
+
+    <?php if(strval($this->getAccessToken()) != ''): ?>
+    $('onestepcheckout-title').style.display = 'none';
+    $('onestepcheckout_prelogin_form').style.display = 'none';
+    $('onestepcheckout-general-form').style.display = 'block';
+    $('osc-billing-password-area').style.display = 'none';
+    $('osc-billing-password-area').insert('<input type="hidden" name="billing[fb_user_id]" id="billing:fb_user_id" /><input type="hidden" name="billing[fb_access_token]" id="billing:fb_access_token" />');
+
+    $("billing:email").value = '<?php echo $this->getEmail(); ?>';
+    $('billing:customer_password').value = '<?php echo $this->getPassword(); ?>';
+    $('billing:confirm_password').value = '<?php echo $this->getPassword(); ?>';
+    $('billing:firstname').value = '<?php echo $this->getFirstname(); ?>';
+    $('billing:lastname').value = '<?php echo $this->getLastname(); ?>';
+    $('billing:fb_user_id').value = '<?php echo $this->getUserId(); ?>';
+    $('billing:fb_access_token').value = '<?php echo $this->getAccessToken(); ?>';
+    <?php endif; ?>
+
+});
+
+window.fbAsyncInit = function() {
+    FB.init({
+        appId: '183026215696896',
+        status: true,
+        xfbml: true,
+        version: 'v2.7'
+    });
+};
+function fbLoginCallback() {
+    FB.getLoginStatus(function(response) {
+        FB.api('/me', { fields: 'name, first_name, email, gender' }, function(response2) {
+                new Ajax.Request('<?php echo Mage::getUrl('sociallogin/login/check', array('_secure' => true)) ?>', {
+                    method: "post",
+                    parameters: {
+                        name: response2.name,
+                        firstName: response2.first_name,
+                        email: response2.email,
+                        accessToken: response.authResponse.accessToken,
+                        userId: response.authResponse.userID,
+                        signedRequest: response.authResponse.signedRequest,
+                        origin: 'onestepcheckout_index'
+                    },
+                    onComplete: function (data) {
+                        if (typeof(data.responseJSON.redirectUrl) != 'undefined') {
+                            window.location = data.responseJSON.redirectUrl;
+                        }
+                    }
+                });
+            }
+        );
+    });
+}
+</script>

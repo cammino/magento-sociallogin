@@ -1,0 +1,3 @@
+<?php
+class Cammino_Sociallogin_Block_Onestepcheckout_Index extends Cammino_Sociallogin_Block_Account_Create {
+}
